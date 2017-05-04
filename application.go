@@ -8,18 +8,20 @@ import (
 	//
 	//    sw "github.com/myname/myrepo/go"
 	//
-	sw "./go"
+	//sw "./go"
 	"log"
 	"net/http"
 	"os"
 	"io/ioutil"
+	"github.com/gorilla/mux"
+	"fmt"
 )
 
 func main() {
 
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
+	//router := sw.NewRouter()
 	
 
 
@@ -29,7 +31,14 @@ func main() {
 		port = "5000"
 	}
 
+	//log.Fatal(http.ListenAndServe(":"+port, router))
+
+
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/", Index)
 	log.Fatal(http.ListenAndServe(":"+port, router))
+
+
 
 	f, _ := os.Create("/var/log/golang/golang-server.log")
 	defer f.Close()
@@ -55,4 +64,8 @@ func main() {
 
 	log.Printf("Listening on port %s\n\n", port)
 	http.ListenAndServe(":"+port, nil)
+}
+
+func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World!")
 }
