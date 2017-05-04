@@ -29,7 +29,7 @@ func main() {
 		port = "5000"
 	}
 
-	l//og.Fatal(http.ListenAndServe(":"+port, router))
+	//log.Fatal(http.ListenAndServe(":"+port, router))
 
 	f, _ := os.Create("/var/log/golang/golang-server.log")
 	defer f.Close()
