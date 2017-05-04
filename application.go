@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"os"
 	"io/ioutil"
-	"github.com/gorilla/mux"
+	//"github.com/gorilla/mux"
 	"fmt"
 )
 
@@ -33,10 +33,10 @@ func main() {
 
 	//log.Fatal(http.ListenAndServe(":"+port, router))
 
-	log.Printf("Listening on port A %s\n\n", port)
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", Index)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	//log.Printf("Listening on port A %s\n\n", port)
+	//router := mux.NewRouter().StrictSlash(true)
+	//router.HandleFunc("/", Index)
+	//log.Fatal(http.ListenAndServe(":"+port, router))
 
 
 
