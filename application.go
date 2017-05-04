@@ -8,12 +8,10 @@ import (
 	//
 	//    sw "github.com/myname/myrepo/go"
 	//
-	//sw "./go"
+	sw "./go"
 	"log"
-	//"net/http"
-
-	"os"
 	"net/http"
+	"os"
 	"io/ioutil"
 )
 
@@ -21,15 +19,17 @@ func main() {
 
 	log.Printf("Server started")
 
-//	router := sw.NewRouter()
+	router := sw.NewRouter()
 	
-//	log.Fatal(http.ListenAndServe(":5000", router))
+
 
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "5000"
 	}
+
+	log.Fatal(http.ListenAndServe(":"+port, router))
 
 	f, _ := os.Create("/var/log/golang/golang-server.log")
 	defer f.Close()
