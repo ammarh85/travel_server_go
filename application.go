@@ -33,7 +33,7 @@ func main() {
 
 	//log.Fatal(http.ListenAndServe(":"+port, router))
 
-
+	log.Printf("Listening on port A %s\n\n", port)
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
 	log.Fatal(http.ListenAndServe(":"+port, router))
@@ -67,5 +67,6 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Index Invocation started")
 	fmt.Fprintf(w, "Hello World!")
 }
