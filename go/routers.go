@@ -38,7 +38,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func ApiInfo(w http.ResponseWriter, r *http.Request) {
-	const indexPage = "api/swagger.yaml"
+	const indexPage = "/dist/index.html?url=api/swagger.yaml"
 	http.ServeFile(w, r, indexPage)
 }
 
