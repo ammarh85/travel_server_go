@@ -37,7 +37,19 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World From Router!!!")
 }
 
+func ApiInfo(w http.ResponseWriter, r *http.Request) {
+	const indexPage = "api/swagger.yaml"
+	http.ServeFile(w, r, indexPage)
+}
+
 var routes = Routes{
+	Route{
+		"ApiInfo",
+		"GET",
+		"/api/",
+		ApiInfo,
+	},
+
 	Route{
 		"Index",
 		"GET",
