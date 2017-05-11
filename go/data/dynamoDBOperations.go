@@ -17,11 +17,11 @@ func GetAgencyList() {
 
 	svc := CreateDynamoSessionClient();
 
-	params := &dynamodb.PutItemInput{
+	params := &dynamodb.ScanInput{
 		TableName: aws.String("Agency"), // Required
 	}
 
-	result, err := svc.BatchGetItem(params)
+	result, err := svc.Scan(params)
 	if err != nil {
 		// Cast err to awserr.Error to handle specific error codes.
 		aerr, ok := err.(awserr.Error)
@@ -32,8 +32,9 @@ func GetAgencyList() {
 	}
 
 	log.Println("Tables:")
-	for _, table := range result.Responses {
-		log.Println(*table)
+	for k, v := range result.Items {
+		fmt.Printf("key[%s] value[%s]\n", k, v)
+
 	}
 }
 

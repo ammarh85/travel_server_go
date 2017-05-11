@@ -17,7 +17,6 @@ type Routes []Route
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
@@ -30,91 +29,95 @@ func NewRouter() *mux.Router {
 			Handler(handler)
 	}
 
-	router.PathPrefix("/api/").Handler(
-		http.StripPrefix("/api/", http.FileServer(http.Dir("dist/"))))
 	return router
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World From Router!!!")
-}
-
-func ApiInfo(w http.ResponseWriter, r *http.Request) {
-
-	//const indexPage = "dist/index.html?url=/api/swagger.yaml"
-	//const indexPage = "api/swagger.yaml"
-	//const indexPage = "dist/index.html"
-	//const indexPage = "public/index.html"
-	//const indexPage = "api/swagger.yaml"
-
-	//http.FileServer(http.Dir("public/"))
-	//http.ServeFile(w, r, indexPage)
-
-	assets := http.StripPrefix("/", http.FileServer(http.Dir("dist/")))
-	http.Handle("/api", assets)
+	fmt.Fprintf(w, "Hello World!")
 }
 
 var routes = Routes{
-	/*Route{
-		"ApiInfo",
-		"GET",
-		"/api/",
-		ApiInfo,
-	},*/
-
 	Route{
 		"Index",
 		"GET",
-		"/v2/",
+		"/tc/",
 		Index,
+	},
+
+	Route{
+		"CreateAgency",
+		"POST",
+		"/tc/agency",
+		CreateAgency,
+	},
+
+	Route{
+		"GetAgencies",
+		"GET",
+		"/tc/agency/getAgency",
+		GetAgencies,
+	},
+
+	Route{
+		"GetAgencyById",
+		"GET",
+		"/tc/agency/getAgencyById",
+		GetAgencyById,
 	},
 
 	Route{
 		"CreateAgent",
 		"POST",
-		"/v2/agent",
+		"/tc/agent",
 		CreateAgent,
+	},
+
+	Route{
+		"CreateAgentsWithArrayInput",
+		"POST",
+		"/tc/agent/createWithArray",
+		CreateAgentsWithArrayInput,
+	},
+
+	Route{
+		"GetAgents",
+		"GET",
+		"/tc/agent/getAgents",
+		GetAgents,
+	},
+
+	Route{
+		"GetagentById",
+		"GET",
+		"/tc/agent/getAgentById",
+		GetagentById,
+	},
+
+	Route{
+		"LoginUser",
+		"GET",
+		"/tc/agent/login",
+		LoginUser,
 	},
 
 	Route{
 		"GetInventory",
 		"GET",
-		"/v2/package/inventory",
+		"/tc/package/inventory",
 		GetInventory,
 	},
 
 	Route{
 		"AddUser",
 		"POST",
-		"/v2/user",
+		"/tc/user",
 		AddUser,
-	},
-
-	Route{
-		"CreateUsersWithArrayInput",
-		"POST",
-		"/v2/agent/createWithArray",
-		CreateUsersWithArrayInput,
-	},
-
-	Route{
-		"CreateUsersWithListInput",
-		"POST",
-		"/v2/agent/createWithList",
-		CreateUsersWithListInput,
-	},
-
-	Route{
-		"LoginUser",
-		"GET",
-		"/v2/agent/login",
-		LoginUser,
 	},
 
 	Route{
 		"UpdateUser",
 		"PUT",
-		"/v2/user",
+		"/tc/user",
 		UpdateUser,
 	},
 
