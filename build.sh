@@ -36,6 +36,7 @@ echo "Hello World Path!"
 #go get -u github.com/Sirupsen/logrus
 #go get -u gopkg.in/yaml.v2
 go get -u github.com/gorilla/mux
+go get -u github.com/aws/aws-sdk-go/aws
 echo "Hello World Post MUX !"
 go build -o bin/application application.go
 
