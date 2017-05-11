@@ -12,7 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"io/ioutil"
+	//"io/ioutil"
 	//"github.com/gorilla/mux"
 	//"fmt"
 	//"github.com/gorilla/mux"
@@ -31,7 +31,13 @@ func main() {
 
 	log.Fatal(http.ListenAndServe(":"+port, router))
 
-	f, _ := os.Create("/var/log/golang/golang-server.log")
+	/*assets := http.StripPrefix("/", http.FileServer(http.Dir("dist/")))
+	http.Handle("/", assets)
+
+	log.Println("Listening at port 5000")
+	log.Fatal(http.ListenAndServe(":5000", nil))*/
+
+	/*f, _ := os.Create("/var/log/golang/golang-server.log")
 	defer f.Close()
 	log.SetOutput(f)
 
@@ -54,5 +60,5 @@ func main() {
 	})
 
 	log.Printf("Listening on port %s\n\n", port)
-	http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe(":"+port, nil)*/
 }

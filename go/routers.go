@@ -30,6 +30,8 @@ func NewRouter() *mux.Router {
 			Handler(handler)
 	}
 
+	router.PathPrefix("/api/").Handler(
+		http.StripPrefix("/api/", http.FileServer(http.Dir("dist/"))))
 	return router
 }
 
@@ -38,19 +40,27 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func ApiInfo(w http.ResponseWriter, r *http.Request) {
-	const indexPage = "dist/index.html?url=/api/swagger.yaml"
-	//const indexPage = "dist/index.html"
+
+	//const indexPage = "dist/index.html?url=/api/swagger.yaml"
 	//const indexPage = "api/swagger.yaml"
-	http.ServeFile(w, r, indexPage)
+	//const indexPage = "dist/index.html"
+	//const indexPage = "public/index.html"
+	//const indexPage = "api/swagger.yaml"
+
+	//http.FileServer(http.Dir("public/"))
+	//http.ServeFile(w, r, indexPage)
+
+	assets := http.StripPrefix("/", http.FileServer(http.Dir("dist/")))
+	http.Handle("/api", assets)
 }
 
 var routes = Routes{
-	Route{
+	/*Route{
 		"ApiInfo",
 		"GET",
 		"/api/",
 		ApiInfo,
-	},
+	},*/
 
 	Route{
 		"Index",
