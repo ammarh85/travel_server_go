@@ -1,0 +1,448 @@
+swagger: '2.0'
+info:
+  description: API for managing Travel Conceriage Service datasets.
+  version: 1.0.0
+  title: Travel Conseriage
+  termsOfService: TBD
+  contact:
+    email: ammar.haris@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8080'
+basePath: /tc
+tags:
+  - name: user
+    description: Everything about the Users
+    externalDocs:
+      description: Find out more
+      url: 'http://abc.com'
+  - name: agency
+    description: Operations for creating\updating an Agency
+    externalDocs:
+      description: Find out more about agency registration
+      url: 'http://abc.com'
+  - name: agent
+    description: Operations about agents who are associated with an agency
+    externalDocs:
+      description: Find out more about agent registration
+      url: 'http://abc.com'
+  - name: packageInfo
+    description: Access to Travel Packages
+  - name: packageInstance
+    description: Access to Travel Package Intances
+  - name: rating
+    description: User Ratings for Packages and Agencies
+schemes:
+  - http
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Register a new user
+      description: New user Registration
+      operationId: addUser
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - api_key: []
+    put:
+      tags:
+        - user
+      summary: Update an existing User
+      description: ''
+      operationId: updateUser
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Pet object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+      security:
+        - api_key: []
+  /package/inventory:
+    get:
+      tags:
+        - package
+      summary: Returns package inventories
+      description: Returns list of all packages
+      operationId: getInventory
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Package'
+      security:
+        - api_key: []
+  /agent:
+    post:
+      tags:
+        - agent
+      summary: Create Agent
+      description: This can only be done by the logged in user.
+      operationId: createAgent
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/Agent'
+      responses:
+        default:
+          description: successful operation
+  /agent/createWithArray:
+    post:
+      tags:
+        - agent
+      summary: Creates list of agents with given input array
+      description: ''
+      operationId: createAgentsWithArrayInput
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: List of agent object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Agent'
+      responses:
+        default:
+          description: successful operation
+  /agent/getAgentById:
+    get:
+      tags:
+        - agent
+      summary: Returns An Agent for a given id
+      description: Returns agent object
+      operationId: getagentById
+      produces:
+        - application/json
+      parameters:
+        - name: agentId
+          in: query
+          description: The id of the agent
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Agent'
+      security:
+        - api_key: []
+  /agent/getAgents:
+    get:
+      tags:
+        - agent
+      summary: Returns all agents in the system
+      description: Returns list of all Agents
+      operationId: getAgents
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Agent'
+      security:
+        - api_key: []
+  /agent/login:
+    get:
+      tags:
+        - agent
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+        '400':
+          description: Invalid username/password supplied
+  /agency:
+    post:
+      tags:
+        - agency
+      summary: Create Agency
+      description: This can only be done by the logged in user.
+      operationId: createAgency
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created Agency object
+          required: true
+          schema:
+            $ref: '#/definitions/Agency'
+      responses:
+        default:
+          description: successful operation
+  /agency/getAgencyById:
+    get:
+      tags:
+        - agency
+      summary: Returns an Agency for a given id
+      description: Returns agency object
+      operationId: getAgencyById
+      produces:
+        - application/json
+      parameters:
+        - name: agencyId
+          in: query
+          description: The id of the agency
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Agency'
+      security:
+        - api_key: []
+  /agency/getAgency:
+    get:
+      tags:
+        - agency
+      summary: Returns all agencies in the system
+      description: Returns list of all Agencies
+      operationId: getAgencies
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Agency'
+      security:
+        - api_key: []
+securityDefinitions:
+  agent_auth:
+    type: oauth2
+    authorizationUrl: 'http://abc.com/oauth/dialog'
+    flow: implicit
+    scopes:
+      'write:packages': modify packages in your account
+      'read:packages': read your packages
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Package:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      agencyId:
+        type: integer
+        format: int64
+      name:
+        type: string
+        description: Package Name
+      destLat:
+        type: number
+        format: double
+        description: Destination Latitude
+      destLong:
+        type: number
+        format: double
+        description: Destination Longitude
+      duration:
+        type: integer
+        format: int32
+        description: Duration in Days
+      adultPrice:
+        type: number
+        format: float
+      childPrice:
+        type: number
+        format: float
+      currency:
+        type: string
+      creationDate:
+        type: string
+        format: date-time
+      createdBy:
+        type: integer
+        format: int64
+      LastModificationDate:
+        type: string
+        format: date-time
+      LastModifiedBy:
+        type: integer
+        format: int64
+      status:
+        type: string
+        description: Package Status
+        enum:
+          - active
+          - archived
+          - pending
+      isDeleted:
+        type: boolean
+        default: false
+    xml:
+      name: Package
+  Agency:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      address1:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      country:
+        type: string
+      Email:
+        type: string
+      Phone:
+        type: string
+      Website:
+        type: string
+      isDeleted:
+        type: boolean
+        default: false
+    xml:
+      name: Agent
+  Agent:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      agencyId:
+        type: integer
+        format: int64
+      firstName:
+        type: string
+      LastName:
+        type: string
+      Email:
+        type: string
+      Mobile:
+        type: string
+      isDeleted:
+        type: boolean
+        default: false
+    xml:
+      name: Agent
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      userStatus:
+        type: integer
+        format: int32
+        description: User Status
+    xml:
+      name: User
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+externalDocs:
+  description: Find out more about Travel Conceriage
+  url: 'http://travelfoo.io'

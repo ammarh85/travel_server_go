@@ -4,21 +4,24 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/session"
-	//"net/http"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/aws"
-	//"github.com/aws/aws-sdk-go/aws/awserr"
-	//"log"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"log"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
-func GetAgencyList() {
+func GetItemsList(tableName string) []map[string]*dynamodb.AttributeValue{
 
 	svc := CreateDynamoSessionClient();
 
 	params := &dynamodb.ScanInput{
-		TableName: aws.String("Agency"), // Required
+		TableName: aws.String(tableName), // Required
+		ExpressionAttributeValues:map[string]*dynamodb.AttributeValue{
+			":falseFlag": {
+				BOOL: aws.Bool(false),
+			},
+		},
+		FilterExpression: aws.String("IsDeleted = :falseFlag"),
 	}
 
 	result, err := svc.Scan(params)
@@ -30,12 +33,17 @@ func GetAgencyList() {
 		}
 		//		return err
 	}
+	return result.Items
+}
 
-	log.Println("Tables:")
-	for k, v := range result.Items {
-		fmt.Printf("key[%s] value[%s]\n", k, v)
+func UnmarshalListOfMaps(l []map[string]*dynamodb.AttributeValue, out interface{}) error {
+	attrs := make([]*dynamodb.AttributeValue, len(l))
 
+	for i, m := range l {
+		attrs[i] = &dynamodb.AttributeValue{M: m}
 	}
+
+	return dynamodbattribute.UnmarshalList(attrs, out)
 }
 
 func CreateDynamoSessionClient() *dynamodb.DynamoDB {
