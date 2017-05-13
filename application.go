@@ -16,6 +16,7 @@ import (
 	//"github.com/gorilla/mux"
 	//"fmt"
 	//"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 )
 
 func main() {
@@ -29,7 +30,13 @@ func main() {
 		port = "5000"
 	}
 
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+
+
+
+	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 
 	/*assets := http.StripPrefix("/", http.FileServer(http.Dir("dist/")))
 	http.Handle("/", assets)

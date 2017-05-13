@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
-
 )
 
 type Route struct {
@@ -19,7 +17,7 @@ type Routes []Route
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	handlers.CORS()
+	//handlers.CORS()
 	for _, route := range routes {
 		var handler http.Handler
 

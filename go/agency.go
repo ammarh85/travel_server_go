@@ -29,10 +29,8 @@ func CreateAgency(w http.ResponseWriter, r *http.Request) {
 // fetches the full list of available agencies which are not marked as deleted
 // returns json string of Agency objects to caller
 func GetAgencies(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	itemList := data.GetItemsList("Agency")
 	var agencies []Agency
 	err := data.UnmarshalListOfMaps(itemList, &agencies)
