@@ -17,7 +17,6 @@ type Routes []Route
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	//handlers.CORS()
 	for _, route := range routes {
 		var handler http.Handler
 
@@ -34,7 +33,7 @@ func NewRouter() *mux.Router {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+	fmt.Fprintf(w, "Welcome to Travel Concierge!")
 }
 
 var routes = Routes{

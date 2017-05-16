@@ -3,7 +3,7 @@ package tc
 import (
 	"net/http"
 )
-
+// Package Object and operations related to a package
 type Package struct {
 
 }

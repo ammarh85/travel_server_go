@@ -6,7 +6,7 @@ import (
 	"log"
 	"encoding/json"
 )
-
+// Agency object and api calls pertaining to an agency
 type Agency struct {
 	AgencyId	string	`json:"agencyId"`
 	AgencyName	string	`json:"agencyName"`

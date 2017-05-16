@@ -3,7 +3,7 @@ package tc
 import (
 	"net/http"
 )
-
+// Define User Object
 type User struct {
 
 }

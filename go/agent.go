@@ -3,7 +3,7 @@ package tc
 import (
 	"net/http"
 )
-
+// Agent object and API call operations pertaining to an agent
 type Agent struct {
 
 }
